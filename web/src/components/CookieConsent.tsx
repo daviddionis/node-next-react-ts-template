@@ -23,7 +23,7 @@ interface CookieConstentProps {
     };
 }
 
-const CookieConstent: React.FC<CookieConstentProps> = ({
+const CookieConsent: React.FC<CookieConstentProps> = ({
     cookies: c, cookieUsage
 }: CookieConstentProps) => {
 
@@ -155,4 +155,4 @@ const SwitchIconed: React.FC<SwitchIconedProps> = ({ checked, onChange, forced =
 }
 
 
-export default CookieConstent;
+export default CookieConsent;

@@ -1,4 +1,4 @@
-import { CookieInfo } from "../components/CookieConstent";
+import { CookieInfo } from "../components/CookieConsent";
 
 export const cookiesInfo: CookieInfo[] = [
     {

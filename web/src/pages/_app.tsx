@@ -1,15 +1,38 @@
 import '../styles/globals.css'
-import React from "react";
+import React, { useMemo, useState } from "react";
 import { AppContext, AppProps } from "next/app";
-import CookieConstent, { CookieInfo } from "../components/CookieConstent";
-import { cookiesInfo } from '../constants/cookies.constants';
+import SuperTokens from 'supertokens-auth-react';
+import { SuperTokensConfig } from '../config';
+import { Toaster } from 'react-hot-toast';
+import SessionProvider from '../components/SessionProvider';
+import AuthRoutes from '../components/AuthRoutes';
+import Head from 'next/head';
+import { UserSessionContext } from '../context/UserContext';
+import User from '../models/User';
 
-function RootApp({ Component, pageProps }: AppProps) {
+if (typeof window !== 'undefined') {
+    SuperTokens.init(SuperTokensConfig);
+}
+
+const RootApp = ({ Component, pageProps }: AppProps) => {
+
+    const [user, setUser] = useState<User | null>(null);
+
+    const userSessionState = useMemo(() => ({ user, setUser }), [user, setUser]);
+
     return (
         <>
-            <Component {...pageProps} />
-            Imagine this is a footer
-            <CookieConstent cookies={cookiesInfo} />
+            <Head>
+                <title>Home</title>
+            </Head>
+            <UserSessionContext.Provider value={userSessionState}>
+                <SessionProvider>
+                    <AuthRoutes>
+                        <Component {...pageProps} />
+                        <Toaster />
+                    </AuthRoutes>
+                </SessionProvider >
+            </UserSessionContext.Provider>
         </>
     );
 };
